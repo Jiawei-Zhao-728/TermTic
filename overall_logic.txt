@@ -1,0 +1,11 @@
+Main:
+    - Prompt the user to start the game
+    - Game Loop: 
+        - The user enters a position
+        - Check win
+        - the AI enters a move
+        - Check win
+
+- If there is a win or the board is full, end game, and prompt the the user if he wants to restart the game. 
+
+- Minimax algorithm for the impossible ai:
