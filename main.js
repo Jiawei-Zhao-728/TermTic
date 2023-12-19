@@ -7,6 +7,7 @@ import {
   checkTie,
   newCheckWin,
 } from "./game.js";
+import readline from "readline";
 import { playerPromptLoop } from "./player.js";
 import { aiMove } from "./simple_ai.js";
 import { bestMove, getInitialDepth } from "./impossible_ai.js";
@@ -17,7 +18,7 @@ const board = [
   [" ", " ", " "],
 ];
 
-async function main() {
+async function game(difficulty) {
   gameInit(board);
   let keepPlaying = true;
   let currentPlayerIsHuman = true; // Change this as needed
@@ -28,11 +29,13 @@ async function main() {
       await playerPromptLoop(board);
     } else {
       console.log("AI player's turn:");
-      // aiMove(board);
-      const depth = await getInitialDepth(board);
-      const move = bestMove(board, "O", depth);
-      console.log(move);
-      board[move.row][move.col] = "O";
+      if (difficulty === "easy" || difficulty === "1") {
+        aiMove(board);
+      } else {
+        const depth = await getInitialDepth(board);
+        const move = bestMove(board, "O", depth);
+        board[move.row][move.col] = "O";
+      }
     }
     // Print the board after each move
     printBoard(board);
@@ -62,4 +65,34 @@ async function main() {
   }
 }
 
-main();
+// Create readline interface for I/O
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+// Function to prompt the user for the difficulty level
+const Start = () => {
+  rl.question(
+    "Please choose the difficulty level ( (1)easy, (2)hard ): ",
+    (answer) => {
+      const difficulty = answer.toLowerCase();
+
+      if (["easy", "1"].includes(difficulty)) {
+        rl.close();
+
+        console.log(`You chose easy.`);
+        game(difficulty);
+      } else if (["hard", "2"].includes(difficulty)) {
+        rl.close();
+        console.log(`You chose hard.`);
+        game(difficulty);
+      } else {
+        console.log('Invalid input. Please enter "easy", or "hard".');
+        Start();
+      }
+    }
+  );
+};
+
+Start();
