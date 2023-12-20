@@ -33,8 +33,7 @@ async function game(difficulty) {
         aiMove(board);
       } else {
         const depth = await getInitialDepth(board);
-        const move = bestMove(board, "O", depth);
-        board[move.row][move.col] = "O";
+        bestMove(board, "O", depth);
       }
     }
     // Print the board after each move

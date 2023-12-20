@@ -26,8 +26,9 @@ export function bestMove(board, player, depth) {
       }
     }
   }
-
-  return bestMove; // This should be the move object with the best score.
+  board[bestMove.row][bestMove.col] = "O";
+  console.log("AI Player chose row: " + bestMove.row + " col: " + bestMove.col);
+  return board; // This should be the move object with the best score.
 }
 
 export function getInitialDepth(board) {
